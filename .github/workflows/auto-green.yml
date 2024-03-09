@@ -14,11 +14,14 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v3
 
-      - name: Auto green
+      - name: Commit files
         run: |
           git config --local user.email "tonimayloneya@gmail.com"
           git config --local user.name "student-ice"
-          git remote set-url origin https://${{ github.actor }}:${{ secrets.PRIVATE_TOKEN }}@github.com/${{ github.repository }}
-          git pull --rebase
           git commit --allow-empty -m "每天一绿"
-          git push
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PRIVATE_TOKEN }}
+          branch: ${{ github.ref }}
